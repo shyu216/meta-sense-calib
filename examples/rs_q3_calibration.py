@@ -76,7 +76,7 @@ def main():
 
 
 def demo_visualization_only():
-    """使用实际标定结果进行可视化"""
+    """使用实际标定结果和真实数据进行可视化"""
     import numpy as np
     import os
     import json
@@ -102,19 +102,52 @@ def demo_visualization_only():
     # 提取数据
     transformation_matrix = np.array(result_dict['transformation_matrix'])
     
-    # 生成模拟点云数据（基于标定结果）
-    np.random.seed(42)
-    points1 = np.random.randn(100, 3) * 50 + np.array([100, 50, 500])
-    points2 = (transformation_matrix @ np.hstack([points1, np.ones((points1.shape[0], 1))]).T).T[:, :3]
-    points2 += np.random.randn(100, 3) * 2  # 添加噪声
+    # 检查是否有实际的点云数据
+    points1_path = os.path.join(calibration_dir, "points1.npy")
+    points2_path = os.path.join(calibration_dir, "points2.npy")
+    
+    if os.path.exists(points1_path) and os.path.exists(points2_path):
+        print("加载实际点云数据...")
+        points1 = np.load(points1_path)
+        points2 = np.load(points2_path)
+        print(f"实际点云数据加载完成: {points1.shape[0]} 个点")
+    else:
+        print("未找到实际点云数据，使用模拟数据...")
+        # 生成模拟点云数据（基于标定结果）
+        np.random.seed(42)
+        points1 = np.random.randn(100, 3) * 50 + np.array([100, 50, 500])
+        points2 = (transformation_matrix @ np.hstack([points1, np.ones((points1.shape[0], 1))]).T).T[:, :3]
+        points2 += np.random.randn(100, 3) * 2  # 添加噪声
 
     # 计算误差
     transformed = (transformation_matrix @ np.hstack([points1, np.ones((points1.shape[0], 1))]).T).T[:, :3]
     errors = np.linalg.norm(transformed - points2, axis=1)
 
-    # 生成位姿数据
-    rvecs = [np.array([[0.1], [0.2], [0.3]]), np.array([[0.05], [0.1], [0.15]])]
-    tvecs = [np.array([[100], [50], [500]]), np.array([[120], [60], [520]])]
+    # 从标定结果中提取实际的位姿数据
+    rvecs = []
+    tvecs = []
+    
+    # 检查是否有实际的位姿数据
+    if 'camera1_poses' in result_dict and 'camera2_poses' in result_dict:
+        print("加载实际位姿数据...")
+        # 使用最后一组位姿数据进行可视化
+        if result_dict['camera1_poses'] and result_dict['camera2_poses']:
+            # 取最后一个有效的位姿
+            cam1_pose = result_dict['camera1_poses'][-1]
+            cam2_pose = result_dict['camera2_poses'][-1]
+            
+            # 提取旋转向量和平移向量
+            rvecs.append(np.array(cam1_pose['rvec']).reshape(3, 1))
+            tvecs.append(np.array(cam1_pose['tvec']).reshape(3, 1))
+            rvecs.append(np.array(cam2_pose['rvec']).reshape(3, 1))
+            tvecs.append(np.array(cam2_pose['tvec']).reshape(3, 1))
+            print("实际位姿数据加载完成")
+    
+    # 如果没有实际位姿数据，使用模拟数据
+    if not rvecs:
+        print("未找到实际位姿数据，使用模拟数据...")
+        rvecs = [np.array([[0.1], [0.2], [0.3]]), np.array([[0.05], [0.1], [0.15]])]
+        tvecs = [np.array([[100], [50], [500]]), np.array([[120], [60], [520]])]
 
     # 创建可视化器
     visualizer_poses = PoseVisualizer()

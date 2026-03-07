@@ -101,6 +101,8 @@ class Calibrator:
         matched_points1 = []
         matched_points2 = []
         valid_frames = []
+        camera1_poses = []
+        camera2_poses = []
 
         for i in range(min_len):
             result1 = self.detector.detect_corners(image_files1[i], visualize=False)
@@ -137,6 +139,18 @@ class Calibrator:
             matched_points1.extend(points1_cam)
             matched_points2.extend(points2_cam)
             valid_frames.append(i)
+            
+            # 保存位姿数据
+            camera1_poses.append({
+                'rvec': pose1['rvec'].tolist(),
+                'tvec': pose1['tvec'].tolist(),
+                'frame': i
+            })
+            camera2_poses.append({
+                'rvec': pose2['rvec'].tolist(),
+                'tvec': pose2['tvec'].tolist(),
+                'frame': i
+            })
 
             if visualize:
                 img1_vis = cv2.drawChessboardCorners(
@@ -172,6 +186,11 @@ class Calibrator:
         points1_array = np.array(matched_points1)
         points2_array = np.array(matched_points2)
 
+        # 保存点云数据
+        np.save(os.path.join(output_dir, 'points1.npy'), points1_array)
+        np.save(os.path.join(output_dir, 'points2.npy'), points2_array)
+        print(f"[Calibrator] Point cloud data saved to {output_dir}")
+
         transformed = transform.transform_points(points1_array)
         errors = np.linalg.norm(transformed - points2_array, axis=1)
 
@@ -201,11 +220,11 @@ class Calibrator:
             euler_angles=transform.get_euler_angles(True)
         )
 
-        self._save_results(result, output_dir)
+        self._save_results(result, output_dir, camera1_poses, camera2_poses)
 
         return result
 
-    def _save_results(self, result: CalibrationResult, output_dir: str):
+    def _save_results(self, result: CalibrationResult, output_dir: str, camera1_poses: List[Dict], camera2_poses: List[Dict]):
         npz_path = os.path.join(output_dir, 'calibration_result.npz')
         np.savez(
             npz_path,
@@ -234,7 +253,9 @@ class Calibrator:
             'total_frame_count': result.total_frame_count,
             'euler_angles_deg': result.euler_angles.tolist(),
             'camera1_intrinsics': self.camera1_intrinsics.to_dict() if self.camera1_intrinsics else None,
-            'camera2_intrinsics': self.camera2_intrinsics.to_dict() if self.camera2_intrinsics else None
+            'camera2_intrinsics': self.camera2_intrinsics.to_dict() if self.camera2_intrinsics else None,
+            'camera1_poses': camera1_poses,
+            'camera2_poses': camera2_poses
         }
 
         json_path = os.path.join(output_dir, 'calibration_result.json')

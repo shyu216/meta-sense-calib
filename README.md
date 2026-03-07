@@ -1,14 +1,33 @@
-# <p align="center">MetaSenseCalib</p>
+# MetaSenseCalib
 
-![](docs/images/assembly.png)
+<div align="center">
+  <img src="docs/images/assembly.png" alt="MetaSenseCalib Assembly" style="max-width: 600px; height: auto;">
+  
+  <div style="margin-top: 20px;">
+    <img src="https://img.shields.io/badge/Python-3.8+-blue.svg" alt="Python">
+    <img src="https://img.shields.io/badge/License-MIT-green.svg" alt="License">
+    <img src="https://img.shields.io/badge/OpenCV-4.x-orange.svg" alt="OpenCV">
+  </div>
+  
+  <p style="margin-top: 20px; font-size: 18px;">
+    Quest3 + RealSense 外参标定工具 | 丰富的可视化支持
+  </p>
+</div>
 
-<p align="center">
-  <img src="https://img.shields.io/badge/Python-3.8+-blue.svg" alt="Python">
-  <img src="https://img.shields.io/badge/License-MIT-green.svg" alt="License">
-  <img src="https://img.shields.io/badge/OpenCV-4.x-orange.svg" alt="OpenCV">
-</p>
+## 📑 目录
 
-> Quest3 + RealSense 外参标定工具 | 丰富的可视化支持
+- [支持的设备](#-支持的设备)
+- [特性](#-特性)
+- [安装](#-安装)
+- [快速开始](#-快速开始)
+- [获取相机内参](#-获取相机内参)
+- [示例数据](#-示例数据)
+- [项目结构](#-项目结构)
+- [可视化示例](#-可视化示例)
+- [待实现功能](#-待实现功能)
+- [贡献](#-贡献)
+- [许可证](#-许可证)
+- [致谢](#-致谢)
 
 ## 📷 支持的设备
 
@@ -17,27 +36,38 @@
 
 ## ✨ 特性
 
-- 🎯 自动棋盘格角点检测
-- 📊 实时可视化标定过程
-- 📈 多种误差分析图表
-- 🔄 3D点云配准可视化
-- 🎬 相机位姿动画展示
-- 📁 支持批量处理图像对
-- 💾 多种格式导出 (JSON, NPZ, YAML)
+- 🎯 **自动棋盘格角点检测**：高精度识别棋盘格角点，提高标定精度
+- 📊 **实时可视化标定过程**：直观展示标定过程中的关键步骤
+- 📈 **多种误差分析图表**：详细的误差分析，帮助评估标定质量
+- 🔄 **3D点云配准可视化**：直观展示点云配准效果
+- 🎬 **相机位姿动画展示**：动态展示相机位姿变化
+- 📁 **支持批量处理图像对**：高效处理多组标定图像
+- 💾 **多种格式导出**：支持 JSON、NPZ、YAML 等多种格式
 
 ## 📦 安装
 
+### 步骤 1: 克隆项目
+
 ```bash
-# 克隆项目
 git clone https://github.com/yourusername/MetaSenseCalib.git
 cd MetaSenseCalib
+```
 
-# 创建虚拟环境 (推荐)
+### 步骤 2: 创建虚拟环境（推荐）
+
+```bash
+# Windows
 python -m venv venv
-.\venv\Scripts\activate  # Windows
-# source venv/bin/activate  # Linux/Mac
+.\venv\Scripts\activate
 
-# 安装依赖
+# Linux/Mac
+python3 -m venv venv
+source venv/bin/activate
+```
+
+### 步骤 3: 安装依赖
+
+```bash
 pip install -r requirements.txt
 ```
 
@@ -125,6 +155,7 @@ File.WriteAllText("q3_intrinsics.json", json);
 ```
 
 **输出格式示例**：
+
 ```json
 {
     "FocalLength": {"x": 869.1344, "y": 869.1344},
@@ -174,7 +205,8 @@ data/example/
 └── intrinsics.txt               # 内参信息
 ```
 
-运行示例：
+### 运行示例
+
 ```bash
 python examples/rs_q3_calibration.py
 ```
@@ -196,6 +228,8 @@ MetaSenseCalib/
 
 ## 📊 可视化示例
 
+### 功能展示
+
 | 棋盘格检测 | 误差分布 |
 |------------|----------|
 | ![](docs/images/chessboard_detection.png) | ![](outputs/visualization/error_histogram.png) |
@@ -215,19 +249,21 @@ MetaSenseCalib/
 
 ## 🤝 贡献
 
-欢迎提交 Pull Request！
+欢迎提交 Pull Request！我们非常感谢社区的贡献，无论是功能改进、Bug 修复还是文档完善。
 
 ## 📄 许可证
 
-MIT License
+本项目采用 MIT 许可证。详见 [LICENSE](LICENSE) 文件。
 
 ## 🙏 致谢
 
-- OpenCV
-- NumPy
-- SciPy
-- Matplotlib
+- **OpenCV**：提供强大的计算机视觉算法
+- **NumPy**：提供高效的数值计算支持
+- **SciPy**：提供科学计算工具
+- **Matplotlib**：提供数据可视化功能
 
 ---
 
-<p align="center">Made with ❤️ for XR Calibration</p>
+<div align="center">
+  <p>Made with ❤️ for XR Calibration</p>
+</div>
