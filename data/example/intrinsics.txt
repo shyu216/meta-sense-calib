@@ -1,0 +1,12 @@
+Camera ID: 50
+Focal Length: 869.1344, 869.1344
+Principal Point: 644.6411, 639.2571
+Resolution: 1280, 1280
+Skew: 0
+Supported Resolutions: UnityEngine.Vector2Int[]
+---
+Note: This file contains the Quest3 camera intrinsics captured during the calibration session.
+RealSense D415 intrinsics used in calibration:
+  Focal Length: 610.334, 609.949
+  Principal Point: 325.213, 229.971
+  Distortion: [0, 0, 0, 0, 0]
