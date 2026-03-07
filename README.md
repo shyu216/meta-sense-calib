@@ -1,6 +1,6 @@
 # <p align="center">MetaSenseCalib</p>
 
-![](images/assembly.png)
+![](docs/images/assembly.png)
 
 <p align="center">
   <img src="https://img.shields.io/badge/Python-3.8+-blue.svg" alt="Python">
@@ -198,11 +198,11 @@ MetaSenseCalib/
 
 | 棋盘格检测 | 误差分布 |
 |------------|----------|
-| ![](docs/images/chessboard_detection.png) | ![](outputs\visualization\error_histogram.png) |
+| ![](docs/images/chessboard_detection.png) | ![](outputs/visualization/error_histogram.png) |
 
 | 3D位姿 | 配准对比 |
 |--------|----------|
-| ![](outputs\visualization\poses_3d.png) | ![](outputs\visualization\registration.png) |
+| ![](outputs/visualization/poses_3d.png) | ![](outputs/visualization/registration.png) |
 
 ## 📋 待实现功能
 
