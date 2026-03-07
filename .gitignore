@@ -36,12 +36,3 @@ ENV/
 # OS
 .DS_Store
 Thumbs.db
-
-# Output files
-outputs/
-*.log
-
-# Calibration data (if local)
-# calibration_images/
-# *.png
-# *.jpg
