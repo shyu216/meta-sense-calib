@@ -1,5 +1,9 @@
 # MetaSenseCalib
 
+<div align="right">
+  <a href="README.md">中文</a> | <a href="README.en.md">English</a>
+</div>
+
 <div align="center">
   <img src="docs/images/assembly.png" alt="MetaSenseCalib Assembly" style="max-width: 600px; height: auto;">
   
@@ -232,7 +236,7 @@ MetaSenseCalib/
 
 | Chessboard Detection | Error Distribution |
 |---------------------|-------------------|
-| ![](docs/images/chessboard_detection.png) | ![](outputs/visualization/error_histogram.png) |
+| ![](outputs/visualization/chessboard_detection.png) | ![](outputs/analysis/error_distribution.png) |
 
 | 3D Poses | Registration Comparison |
 |----------|------------------------|
