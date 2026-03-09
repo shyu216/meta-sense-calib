@@ -2,6 +2,86 @@ import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 
+# -------------------------- Helper Functions --------------------------
+def ray_aabb_intersection(ray_origin, ray_direction, min_bound, max_bound):
+    """
+    检测射线与轴对齐包围盒(AABB)的交点
+    
+    参数:
+        ray_origin: 射线起点
+        ray_direction: 射线方向向量
+        min_bound: AABB的最小边界点
+        max_bound: AABB的最大边界点
+    
+    返回:
+        (intersects, t_min, t_max): 是否相交，以及交点参数
+    """
+    # 计算射线与每个轴平面的交点参数
+    t_x_min = (min_bound[0] - ray_origin[0]) / ray_direction[0] if ray_direction[0] != 0 else -np.inf
+    t_x_max = (max_bound[0] - ray_origin[0]) / ray_direction[0] if ray_direction[0] != 0 else np.inf
+    
+    t_y_min = (min_bound[1] - ray_origin[1]) / ray_direction[1] if ray_direction[1] != 0 else -np.inf
+    t_y_max = (max_bound[1] - ray_origin[1]) / ray_direction[1] if ray_direction[1] != 0 else np.inf
+    
+    t_z_min = (min_bound[2] - ray_origin[2]) / ray_direction[2] if ray_direction[2] != 0 else -np.inf
+    t_z_max = (max_bound[2] - ray_origin[2]) / ray_direction[2] if ray_direction[2] != 0 else np.inf
+    
+    # 确保t_min < t_max
+    if t_x_min > t_x_max:
+        t_x_min, t_x_max = t_x_max, t_x_min
+    if t_y_min > t_y_max:
+        t_y_min, t_y_max = t_y_max, t_y_min
+    if t_z_min > t_z_max:
+        t_z_min, t_z_max = t_z_max, t_z_min
+    
+    # 计算全局的t_min和t_max
+    t_min = max(t_x_min, t_y_min, t_z_min)
+    t_max = min(t_x_max, t_y_max, t_z_max)
+    
+    # 检查是否相交
+    if t_min <= t_max and t_max >= 0:
+        return True, t_min, t_max
+    else:
+        return False, 0, 0
+
+def is_ray_blocked(ray_origin, ray_target, object_vertices):
+    """
+    检查射线是否被物体遮挡
+    
+    参数:
+        ray_origin: 射线起点
+        ray_target: 射线目标点
+        object_vertices: 物体的顶点
+    
+    返回:
+        bool: 射线是否被遮挡
+    """
+    # 计算射线方向
+    ray_direction = ray_target - ray_origin
+    ray_length = np.linalg.norm(ray_direction)
+    if ray_length == 0:
+        return False
+    ray_direction = ray_direction / ray_length
+    
+    # 计算物体的AABB
+    min_bound = np.min(object_vertices, axis=0)
+    max_bound = np.max(object_vertices, axis=0)
+    
+    # 检查射线是否与物体相交
+    intersects, t_min, t_max = ray_aabb_intersection(ray_origin, ray_direction, min_bound, max_bound)
+    
+    if intersects:
+        # 检查交点是否在射线的有效范围内
+        intersection_point = ray_origin + ray_direction * t_min
+        distance_to_intersection = np.linalg.norm(intersection_point - ray_origin)
+        distance_to_target = np.linalg.norm(ray_target - ray_origin)
+        
+        # 如果交点在起点和目标点之间，则射线被遮挡
+        if distance_to_intersection < distance_to_target - 1e-6:  # 减去一个小的epsilon以避免浮点误差
+            return True
+    
+    return False
+
 # -------------------------- 1. Initialize 3D Canvas --------------------------
 fig = plt.figure(figsize=(10, 8))
 ax = fig.add_subplot(111, projection='3d')
@@ -146,18 +226,20 @@ ax.plot([frustum2_points[4,0], frustum2_points[1,0]],
 # Draw rays from both cameras to the object
 for vertex in cube_vertices:
     # Ray from camera 1 to object
-    ax.plot([camera1_position[0], vertex[0]], 
-            [camera1_position[1], vertex[1]], 
-            [camera1_position[2], vertex[2]], 'r-', alpha=0.3)
+    if not is_ray_blocked(camera1_position, vertex, cube_vertices):
+        ax.plot([camera1_position[0], vertex[0]], 
+                [camera1_position[1], vertex[1]], 
+                [camera1_position[2], vertex[2]], 'r-', alpha=0.3)
     # Ray from camera 2 to object
-    ax.plot([camera2_position[0], vertex[0]], 
-            [camera2_position[1], vertex[1]], 
-            [camera2_position[2], vertex[2]], 'g-', alpha=0.3)
+    if not is_ray_blocked(camera2_position, vertex, cube_vertices):
+        ax.plot([camera2_position[0], vertex[0]], 
+                [camera2_position[1], vertex[1]], 
+                [camera2_position[2], vertex[2]], 'g-', alpha=0.3)
 
 # -------------------------- 8. Add Labels and Annotations --------------------------
-ax.set_xlabel('X Axis (Right)')
-ax.set_ylabel('Y Axis (Up)')
-ax.set_zlabel('Z Axis (Forward)')
+ax.set_xlabel('Z Axis (Forward)')
+ax.set_ylabel('X Axis (Right)')
+ax.set_zlabel('Y Axis (Up)')
 ax.set_title('Camera View Transformation Diagram')
 ax.legend()
 
