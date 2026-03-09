@@ -128,6 +128,31 @@ python examples/extr-demo.py
 - 实际标定结果的详细分析
 - 误差评估和优化建议
 
+## 🛠️ 核心OpenCV函数
+
+本项目使用的关键OpenCV函数：
+
+### 棋盘格检测与角点定位
+- `cv2.findChessboardCorners` - 检测棋盘格角点
+- `cv2.cornerSubPix` - 亚像素级角点精确定位
+- `cv2.drawChessboardCorners` - 可视化棋盘格角点
+
+### 相机位姿估计
+- `cv2.solvePnP` - 求解相机位姿
+- `cv2.Rodrigues` - 旋转向量和旋转矩阵之间的转换
+- `cv2.projectPoints` - 将3D点投影到2D图像平面
+
+### 图像处理
+- `cv2.cvtColor` - 图像颜色空间转换
+- `cv2.imread` - 读取图像
+- `cv2.imwrite` - 保存图像
+- `cv2.resize` - 调整图像大小
+
+### 优化参数
+- `cv2.TERM_CRITERIA_EPS` - 角点精确定位的终止条件（精度）
+- `cv2.TERM_CRITERIA_MAX_ITER` - 角点精确定位的终止条件（最大迭代次数）
+- `cv2.SOLVEPNP_ITERATIVE` - solvePnP的迭代求解方法
+
 ## 🤝 贡献
 
 欢迎提交 Pull Request！我们非常感谢社区的贡献，无论是功能改进、Bug 修复还是文档完善。

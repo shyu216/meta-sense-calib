@@ -128,6 +128,31 @@ Detailed documentation includes:
 - Detailed analysis of actual calibration results
 - Error evaluation and optimization suggestions
 
+## 🛠️ Core OpenCV Functions
+
+Key OpenCV functions used in this project:
+
+### Chessboard Detection and Corner Localization
+- `cv2.findChessboardCorners` - Detect chessboard corners
+- `cv2.cornerSubPix` - Sub-pixel corner localization
+- `cv2.drawChessboardCorners` - Visualize chessboard corners
+
+### Camera Pose Estimation
+- `cv2.solvePnP` - Solve camera pose
+- `cv2.Rodrigues` - Convert between rotation vector and rotation matrix
+- `cv2.projectPoints` - Project 3D points to 2D image plane
+
+### Image Processing
+- `cv2.cvtColor` - Convert image color space
+- `cv2.imread` - Read image
+- `cv2.imwrite` - Save image
+- `cv2.resize` - Resize image
+
+### Optimization Parameters
+- `cv2.TERM_CRITERIA_EPS` - Termination criteria for corner localization (precision)
+- `cv2.TERM_CRITERIA_MAX_ITER` - Termination criteria for corner localization (maximum iterations)
+- `cv2.SOLVEPNP_ITERATIVE` - Iterative method for solvePnP
+
 ## 🤝 Contribution
 
 Welcome to submit Pull Requests! We greatly appreciate community contributions, whether it's feature improvements, bug fixes, or documentation enhancements.
