@@ -108,7 +108,7 @@ python examples/extr-demo.py
 The following video demonstrates the pixel conversion effect after camera calibration, showing the view transformation between RealSense and Quest3 cameras:
 
 <video width="800" height="600" controls>
-  <source src="docs/videos/warp_demo.mp4" type="video/mp4">
+  <source src="https://raw.githubusercontent.com/shyu216/meta-sense-calib/main/docs/videos/warp_demo.mp4" type="video/mp4">
   Your browser does not support the HTML5 video tag.
 </video>
 
