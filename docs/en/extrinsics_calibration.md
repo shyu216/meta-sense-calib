@@ -29,7 +29,7 @@ Extrinsics calibration assumes that the two cameras are in different 3D referenc
 2. Transform points seen by the Quest3 camera to the RealSense camera's coordinate system
 3. Achieve spatial alignment between the two cameras
 
-![Extrinsics Calibration Principle](docs/images/camera_view_transformation.png)
+![Extrinsics Calibration Principle](../images/camera_view_transformation.png)
 
 ## 2. Extrinsics Calibration Steps
 

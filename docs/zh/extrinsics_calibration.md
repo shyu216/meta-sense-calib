@@ -29,7 +29,7 @@
 2. 将 Quest3 相机看到的点转换到 RealSense 相机的坐标系
 3. 实现两个相机之间的空间对齐
 
-![外参标定原理](docs/images/camera_view_transformation.png)
+![外参标定原理](../images/camera_view_transformation.png)
 
 ## 2. 外参标定步骤
 
