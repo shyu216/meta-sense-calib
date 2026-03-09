@@ -111,7 +111,7 @@ python examples/extr-demo.py
 
 The following video demonstrates the pixel conversion effect after camera calibration, showing the view transformation between RealSense and Quest3 cameras:
 
-[Video](https://github.com/user-attachments/assets/6618a9a1-ad41-4f3e-8bfe-1c0d7b768931)
+![Warp Demo](docs/videos/warp_demo.gif)
 
 The video file is located at `docs/videos/warp_demo.mp4` in the project.
 

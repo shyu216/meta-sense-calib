@@ -109,9 +109,9 @@ python examples/extr-demo.py
 
 ## 📹 视频演示
 
-以下视频展示了相机标定后的像素转换效果，实现了RealSense和Quest3相机之间的视图转换：
+以下GIF展示了相机标定后的像素转换效果，实现了RealSense和Quest3相机之间的视图转换：
 
-[视频](https://github.com/user-attachments/assets/6618a9a1-ad41-4f3e-8bfe-1c0d7b768931)
+![Warp Demo](docs/videos/warp_demo.gif)
 
 视频文件位于项目的 `docs/videos/warp_demo.mp4` 路径。
 
