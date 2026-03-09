@@ -31,11 +31,11 @@ class PointCloudVisualizer:
 
         ax1 = fig.add_subplot(121, projection='3d')
         ax1.scatter(
-            points_before[:, 0], points_before[:, 1], points_before[:, 2],
+            -points_before[:, 0], -points_before[:, 1], points_before[:, 2],
             c='red', s=50, alpha=0.6, label='Source (Before)'
         )
         ax1.scatter(
-            points_target[:, 0], points_target[:, 1], points_target[:, 2],
+            -points_target[:, 0], -points_target[:, 1], points_target[:, 2],
             c='blue', s=50, alpha=0.6, label='Target'
         )
         ax1.set_title('Before Registration')
@@ -43,14 +43,16 @@ class PointCloudVisualizer:
         ax1.set_ylabel('Y (mm)')
         ax1.set_zlabel('Z (mm)')
         ax1.legend()
+        
+        ax1.view_init(vertical_axis='y', azim=170, elev=10)
 
         ax2 = fig.add_subplot(122, projection='3d')
         ax2.scatter(
-            points_after[:, 0], points_after[:, 1], points_after[:, 2],
+            -points_after[:, 0], -points_after[:, 1], points_after[:, 2],
             c='red', s=50, alpha=0.6, label='Source (After)'
         )
         ax2.scatter(
-            points_target[:, 0], points_target[:, 1], points_target[:, 2],
+            -points_target[:, 0], -points_target[:, 1], points_target[:, 2],
             c='blue', s=50, alpha=0.6, label='Target'
         )
         ax2.set_title('After Registration')
@@ -58,6 +60,8 @@ class PointCloudVisualizer:
         ax2.set_ylabel('Y (mm)')
         ax2.set_zlabel('Z (mm)')
         ax2.legend()
+
+        ax2.view_init(vertical_axis='y', azim=170, elev=10)
 
         plt.tight_layout()
 

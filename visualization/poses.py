@@ -62,6 +62,7 @@ class PoseVisualizer:
         ax.set_zlabel('Z (mm)')
         ax.set_title('Camera Poses in 3D')
         ax.legend()
+        ax.view_init(vertical_axis='y', azim=170, elev=10)
 
         if save_path:
             os.makedirs(os.path.dirname(save_path), exist_ok=True)
@@ -131,9 +132,9 @@ class PoseVisualizer:
 
         tvecs_array = np.array([tvec.flatten() for tvec in tvecs])
 
-        ax.plot(tvecs_array[:, 0], tvecs_array[:, 1], tvecs_array[:, 2],
+        ax.plot(-tvecs_array[:, 0], -tvecs_array[:, 1], tvecs_array[:, 2],
                 'b-', linewidth=2, alpha=0.7)
-        ax.scatter(tvecs_array[:, 0], tvecs_array[:, 1], tvecs_array[:, 2],
+        ax.scatter(-tvecs_array[:, 0], -tvecs_array[:, 1], tvecs_array[:, 2],
                   c=range(len(tvecs_array)), cmap='viridis', s=50)
 
         ax.set_xlabel('X (mm)')
@@ -141,6 +142,7 @@ class PoseVisualizer:
         ax.set_zlabel('Z (mm)')
         ax.set_title('Camera Trajectory')
         ax.legend() if labels else None
+        ax.view_init(vertical_axis='y', azim=170, elev=10)
 
         if save_path:
             os.makedirs(os.path.dirname(save_path), exist_ok=True)
@@ -186,6 +188,7 @@ class PoseVisualizer:
         ax.set_zlabel('Z (mm)')
         ax.set_title('Coordinate Frames')
         ax.legend()
+        ax.view_init(vertical_axis='y', azim=170, elev=10)
 
         if save_path:
             os.makedirs(os.path.dirname(save_path), exist_ok=True)

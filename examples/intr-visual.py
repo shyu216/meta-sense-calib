@@ -242,7 +242,6 @@ def visualize_pixel_physical_relation(img_path: str, image_points: np.ndarray, o
     
     # --- 新增：修正 Y 轴方向 ---
     camera_points[:, 1] = -camera_points[:, 1] 
-
     camera_points[:, 0] = -camera_points[:, 0] 
 
     
