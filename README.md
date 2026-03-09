@@ -107,10 +107,9 @@ python examples/extr-demo.py
 
 以下视频展示了相机标定后的像素转换效果，实现了RealSense和Quest3相机之间的视图转换：
 
-<video width="800" height="600" controls>
-  <source src="https://raw.githubusercontent.com/shyu216/meta-sense-calib/main/docs/videos/warp_demo.mp4" type="video/mp4">
-  您的浏览器不支持HTML5视频标签。
-</video>
+[视频](https://github.com/user-attachments/assets/6618a9a1-ad41-4f3e-8bfe-1c0d7b768931)
+
+它放在docs\videos\warp_demo.mp4
 
 ## 📚 详细文档
 
