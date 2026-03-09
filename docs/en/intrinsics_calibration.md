@@ -24,7 +24,7 @@ Where:
 
 The essence of intrinsics calibration is to establish a **mapping from pixel coordinates to spatial rays**. Each pixel corresponds to a ray in space that starts from the camera's optical center, passes through the pixel, and extends to infinity.
 
-![Pixel to Ray Relationship](https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=camera%20pixel%20to%20ray%20mapping%20diagram%2C%20optical%20axis%2C%20focal%20length%2C%20principal%20point&image_size=square_hd)
+![Pixel to Ray Relationship](docs/images/intrinsics_calibration_diagram.png)
 
 ## 2. Intrinsics Calibration Steps
 

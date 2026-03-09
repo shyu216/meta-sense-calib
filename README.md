@@ -18,6 +18,10 @@
   </p>
 </div>
 
+## 📚 相关资源
+
+- **参考资料**：[MIT Vision Book - Imaging Geometry](https://visionbook.mit.edu/imaging_geometry.html)
+
 ## 📑 目录
 
 - [标定的最终目的](#-标定的最终目的)
@@ -109,7 +113,7 @@ python examples/extr-demo.py
 
 [视频](https://github.com/user-attachments/assets/6618a9a1-ad41-4f3e-8bfe-1c0d7b768931)
 
-它放在docs\videos\warp_demo.mp4
+视频文件位于项目的 `docs/videos/warp_demo.mp4` 路径。
 
 ## 📚 详细文档
 

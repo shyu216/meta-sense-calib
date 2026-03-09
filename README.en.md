@@ -18,6 +18,10 @@
   </p>
 </div>
 
+## 📚 Related Resources
+
+- **Reference**：[MIT Vision Book - Imaging Geometry](https://visionbook.mit.edu/imaging_geometry.html)
+
 ## 📑 Table of Contents
 
 - [Final Goal of Calibration](#-final-goal-of-calibration)
@@ -107,10 +111,9 @@ python examples/extr-demo.py
 
 The following video demonstrates the pixel conversion effect after camera calibration, showing the view transformation between RealSense and Quest3 cameras:
 
-<video width="800" height="600" controls>
-  <source src="https://raw.githubusercontent.com/shyu216/meta-sense-calib/main/docs/videos/warp_demo.mp4" type="video/mp4">
-  Your browser does not support the HTML5 video tag.
-</video>
+[Video](https://github.com/user-attachments/assets/6618a9a1-ad41-4f3e-8bfe-1c0d7b768931)
+
+The video file is located at `docs/videos/warp_demo.mp4` in the project.
 
 ## 📚 Detailed Documentation
 

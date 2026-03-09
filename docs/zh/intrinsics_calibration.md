@@ -24,7 +24,7 @@
 
 内参标定的本质是建立**像素坐标到空间射线的映射**。每个像素对应空间中的一条射线，这条射线从相机光心出发，穿过像素点指向无穷远。
 
-![像素与空间射线关系](https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=camera%20pixel%20to%20ray%20mapping%20diagram%2C%20optical%20axis%2C%20focal%20length%2C%20principal%20point&image_size=square_hd)
+![像素与空间射线关系](docs/images/intrinsics_calibration_diagram.png)
 
 ## 2. 内参标定步骤
 
