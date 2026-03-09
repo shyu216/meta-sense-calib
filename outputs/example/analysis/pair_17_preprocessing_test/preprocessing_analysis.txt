@@ -1,0 +1,11 @@
+MetaSenseCalib - Preprocessing Methods Analysis Report
+============================================================
+Preprocessing Method           Corner Count Status    
+------------------------------------------------------------
+Original                       54         Success   
+Gamma Correction (1.5)         54         Success   
+Contrast Enhancement (1.5x)    54         Success   
+Histogram Equalization         54         Success   
+CLAHE                          54         Success   
+Combined Preprocessing         54         Success   
+============================================================

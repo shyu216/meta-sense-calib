@@ -14,66 +14,47 @@
   </div>
   
   <p style="margin-top: 20px; font-size: 18px;">
-    Quest3 + RealSense Extrinsic Calibration Tool | Rich Visualization Support
+    Quest3 + RealSense Camera Calibration Tool | Enable Pixel-to-Pixel Conversion Between Cameras
   </p>
 </div>
 
 ## 📑 Table of Contents
 
-- [Supported Devices](#-supported-devices)
-- [Features](#-features)
-- [Installation](#-installation)
+- [Final Goal of Calibration](#-final-goal-of-calibration)
+- [What are Intrinsics](#-what-are-intrinsics)
+- [What are Extrinsics](#-what-are-extrinsics)
 - [Quick Start](#-quick-start)
-- [Camera Intrinsics](#-camera-intrinsics)
 - [Sample Data](#-sample-data)
-- [Project Structure](#-project-structure)
-- [Visualization Examples](#-visualization-examples)
-- [Roadmap](#-roadmap)
+- [Detailed Documentation](#-detailed-documentation)
 - [Contribution](#-contribution)
 - [License](#-license)
-- [Acknowledgments](#-acknowledgments)
 
-## 📷 Supported Devices
+## 🎯 Final Goal of Calibration
 
-- **Headset**: Meta Quest 3
-- **Depth Camera**: Intel RealSense D415
+The core goal of camera calibration is **to enable pixel-to-pixel conversion between two cameras**. Through calibration, we can:
 
-## ✨ Features
+- Convert pixel coordinates from RealSense camera to Quest3 camera
+- Convert pixel coordinates from Quest3 camera to RealSense camera
+- Achieve spatial alignment between the two cameras, allowing them to "see" the same 3D world
 
-- 🎯 **Automatic Chessboard Corner Detection**: High-precision detection of chessboard corners to improve calibration accuracy
-- 📊 **Real-time Calibration Visualization**: Intuitive display of key steps during the calibration process
-- 📈 **Multiple Error Analysis Charts**: Detailed error analysis to help evaluate calibration quality
-- 🔄 **3D Point Cloud Registration Visualization**: Intuitive display of point cloud registration results
-- 🎬 **Camera Pose Animation**: Dynamic display of camera pose changes
-- 📁 **Batch Processing of Image Pairs**: Efficient processing of multiple calibration image sets
-- 💾 **Multiple Format Export**: Support for JSON, NPZ, YAML and other formats
+## 📷 What are Intrinsics
 
-## 📦 Installation
+**Intrinsics** describe the internal optical characteristics of a camera, defining the **mapping relationship between pixels and 3D space**:
 
-### Step 1: Clone the Project
+- **Focal Length**: Controls the camera's field of view and magnification
+- **Principal Point**: The intersection of the camera's optical axis with the imaging plane
+- **Distortion Coefficients**: Correct lens distortion
 
-```bash
-git clone https://github.com/yourusername/MetaSenseCalib.git
-cd MetaSenseCalib
-```
+The essence of intrinsics calibration is to establish a mapping from pixel coordinates to spatial rays. Each pixel corresponds to a ray in space that starts from the camera's optical center, passes through the pixel, and extends to infinity.
 
-### Step 2: Create Virtual Environment (Recommended)
+## 🌍 What are Extrinsics
 
-```bash
-# Windows
-python -m venv venv
-.\venv\Scripts\activate
+**Extrinsics** describe the **relative position and orientation between two cameras**, assuming they are in different 3D reference frames:
 
-# Linux/Mac
-python3 -m venv venv
-source venv/bin/activate
-```
+- **Rotation Matrix**: Describes the rotation of one camera relative to another
+- **Translation Vector**: Describes the position offset of one camera relative to another
 
-### Step 3: Install Dependencies
-
-```bash
-pip install -r requirements.txt
-```
+The essence of extrinsics calibration is to find a rigid body transformation that converts one camera's 3D coordinate system to another camera's 3D coordinate system.
 
 ## 🚀 Quick Start
 
@@ -82,14 +63,14 @@ from calibration import Calibrator
 
 # Create calibrator
 calibrator = Calibrator(
-    intrinsics_rs="path/to/rs_intrinsics.json",
-    intrinsics_q3="path/to/q3_intrinsics.json"
+    intrinsics_rs="data/example/rs_intrinsics.json",
+    intrinsics_q3="data/example/q3_intrinsics.json"
 )
 
 # Run calibration
 result = calibrator.calibrate(
-    image_folder="path/to/calibration/images",
-    output_dir="outputs"
+    image_folder="data/example",
+    output_dir="outputs/example/extrinsics"
 )
 
 # View results
@@ -98,107 +79,9 @@ print(f"Rotation matrix:\n{result.rotation_matrix}")
 print(f"Translation vector: {result.translation_vector}")
 print(f"Euler angles (degrees): X={result.euler_angles[0]:.2f}, Y={result.euler_angles[1]:.2f}, Z={result.euler_angles[2]:.2f}")
 print(f"Mean error: {result.mean_error:.3f} mm")
-print(f"Standard deviation: {result.std_error:.3f} mm")
-print(f"Max error: {result.max_error:.3f} mm")
-print(f"Min error: {result.min_error:.3f} mm")
 ```
 
-## 📷 Camera Intrinsics
-
-### Quest 3 Intrinsics
-
-Use Meta Quest 3 SDK in Unity project to get camera intrinsics:
-
-```csharp
-using PassthroughCameraSamples;
-using System.IO;
-
-// Define intrinsics structure
-[System.Serializable]
-public struct CameraIntrinsicsJson {
-    public FocalLength FocalLength;
-    public PrincipalPoint PrincipalPoint;
-    public Resolution Resolution;
-    public float Skew;
-}
-
-[System.Serializable]
-public struct FocalLength {
-    public float x;
-    public float y;
-}
-
-[System.Serializable]
-public struct PrincipalPoint {
-    public float x;
-    public float y;
-}
-
-[System.Serializable]
-public struct Resolution {
-    public int x;
-    public int y;
-}
-
-// Get left or right camera intrinsics
-var intrinsics = PassthroughCameraUtils.GetCameraIntrinsics(PassthroughCameraEye.Left);
-// Or
-var intrinsics = PassthroughCameraUtils.GetCameraIntrinsics(PassthroughCameraEye.Right);
-
-// Build intrinsics object
-var intrinsicsJson = new CameraIntrinsicsJson {
-    FocalLength = new FocalLength { x = intrinsics.focalLength.x, y = intrinsics.focalLength.y },
-    PrincipalPoint = new PrincipalPoint { x = intrinsics.principalPoint.x, y = intrinsics.principalPoint.y },
-    Resolution = new Resolution { x = intrinsics.resolution.x, y = intrinsics.resolution.y },
-    Skew = intrinsics.skew
-};
-
-// Export to JSON format
-string json = UnityEngine.JsonUtility.ToJson(intrinsicsJson, true);
-File.WriteAllText("q3_intrinsics.json", json);
-```
-
-**Output format example**:
-
-```json
-{
-    "FocalLength": {"x": 869.1344, "y": 869.1344},
-    "PrincipalPoint": {"x": 644.6411, "y": 639.2571},
-    "Resolution": {"x": 1280, "y": 1280},
-    "Skew": 0.0
-}
-```
-
-### RealSense Intrinsics
-
-Use Intel RealSense SDK to get and save as JSON:
-
-```python
-import pyrealsense2 as rs
-import json
-
-pipeline = rs.pipeline()
-config = rs.config()
-config.enable_stream(rs.stream.color, 640, 480, rs.format.bgr8, 30)
-profile = pipeline.start(config)
-
-color_profile = profile.get_stream(rs.stream.color)
-intrinsics = color_profile.as_video_stream_profile().get_intrinsics()
-
-# Build intrinsics dictionary
-intrinsics_dict = {
-    "FocalLength": {"x": intrinsics.fx, "y": intrinsics.fy},
-    "PrincipalPoint": {"x": intrinsics.ppx, "y": intrinsics.ppy},
-    "Resolution": {"x": intrinsics.width, "y": intrinsics.height},
-    "Skew": 0.0
-}
-
-# Save as JSON file
-with open("rs_intrinsics.json", "w") as f:
-    json.dump(intrinsics_dict, f, indent=2)
-```
-
-## 📊 Sample Data
+##  Sample Data
 
 The project includes sample datasets located in the `data/example/` directory:
 
@@ -206,50 +89,41 @@ The project includes sample datasets located in the `data/example/` directory:
 data/example/
 ├── rs_0000.png ~ rs_0019.png   # RealSense D415 images (20 images)
 ├── q3_0000.png ~ q3_0019.png   # Quest3 images (20 images)
-└── intrinsics.txt               # Intrinsics information
+├── rs_intrinsics.json          # RealSense intrinsics
+└── q3_intrinsics.json           # Quest3 intrinsics
 ```
 
-### Run Example
+### Run Examples
 
 ```bash
-python examples/rs_q3_calibration.py
+# Intrinsics calibration visualization
+python examples/intr-visual.py
+
+# Extrinsics calibration demo
+python examples/extr-demo.py
 ```
 
-## 📁 Project Structure
+## 📹 Video Demo
 
-```
-MetaSenseCalib/
-├── calibration/         # Core calibration algorithms
-│   ├── chessboard.py    # Chessboard detection
-│   ├── pose.py          # PnP pose estimation
-│   └── transform.py     # Rigid body transformation
-├── visualization/       # Visualization module
-│   ├── poses.py         # Camera pose visualization
-│   ├── errors.py        # Error analysis
-│   └── pointcloud.py    # 3D point cloud
-└── examples/            # Usage examples
-```
+The following video demonstrates the pixel conversion effect after camera calibration, showing the view transformation between RealSense and Quest3 cameras:
 
-## 📊 Visualization Examples
+<video width="800" height="600" controls>
+  <source src="docs/videos/warp_demo.mp4" type="video/mp4">
+  Your browser does not support the HTML5 video tag.
+</video>
 
-### Feature Showcase
+## 📚 Detailed Documentation
 
-| Chessboard Detection | Error Distribution |
-|---------------------|-------------------|
-| ![](outputs/visualization/chessboard_detection.png) | ![](outputs/analysis/error_distribution.png) |
+For more detailed calibration principles and result analysis, please refer to:
 
-| 3D Poses | Registration Comparison |
-|----------|------------------------|
-| ![](outputs/visualization/poses_3d.png) | ![](outputs/visualization/registration.png) |
+- **Chinese Documentation**: [docs/zh/](docs/zh/)
+- **English Documentation**: [docs/en/](docs/en/)
 
-## 📋 Roadmap
-
-- [ ] Real-time video stream calibration
-- [ ] Multi-camera simultaneous calibration
-- [ ] Hand-eye calibration support
-- [ ] Unity integration example
-- [ ] Web interface
-- [ ] Automatic distortion correction
+Detailed documentation includes:
+- Complete steps and principles of intrinsics calibration
+- Mathematical principles of extrinsic rigid body calibration
+- Detailed analysis of actual calibration results
+- Error evaluation and optimization suggestions
 
 ## 🤝 Contribution
 
@@ -258,13 +132,6 @@ Welcome to submit Pull Requests! We greatly appreciate community contributions, 
 ## 📄 License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
-
-## 🙏 Acknowledgments
-
-- **OpenCV**: Provides powerful computer vision algorithms
-- **NumPy**: Provides efficient numerical computing support
-- **SciPy**: Provides scientific computing tools
-- **Matplotlib**: Provides data visualization functionality
 
 ---
 
