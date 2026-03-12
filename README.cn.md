@@ -1,7 +1,7 @@
 # MetaSenseCalib
 
 <div align="right">
-  <a href="README.md">中文</a> | <a href="README.en.md">English</a>
+  <a href="README.cn.md">中文</a> | <a href="README.md">English</a>
 </div>
 
 <div align="center">
