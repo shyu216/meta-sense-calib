@@ -4,63 +4,67 @@
   <a href="README.cn.md">中文</a> | <a href="README.md">English</a>
 </div>
 
+![MetaSenseCalib Assembly](docs/images/assembly.png)
+
+A basic pipeline for calibrating Quest3 and RealSense camera systems, aiming to establish precise pixel-to-pixel coordinate transformation between heterogeneous imaging devices. This implementation provides a foundational approach to multi-camera calibration that should help beginners understand the core principles of camera coordinate system alignment.
+
+Your feedback and suggestions are welcome! Feel free to share your thoughts on how we can improve this calibration pipeline.
+
+
+
+---
+
+## 🎬 See It In Action
+
+Watch how MetaSenseCalib enables seamless pixel-to-pixel conversion between RealSense and Quest3 cameras:
+
 <div align="center">
-  <img src="docs/images/assembly.png" alt="MetaSenseCalib Assembly" style="max-width: 600px; height: auto;">
-  
-  <div style="margin-top: 20px;">
-    <img src="https://img.shields.io/badge/Python-3.8+-blue.svg" alt="Python">
-    <img src="https://img.shields.io/badge/License-MIT-green.svg" alt="License">
-    <img src="https://img.shields.io/badge/OpenCV-4.x-orange.svg" alt="OpenCV">
-  </div>
-  
-  <p style="margin-top: 20px; font-size: 18px;">
-    Quest3 + RealSense Camera Calibration Tool | Enable Pixel-to-Pixel Conversion Between Cameras
-  </p>
+  <img src="docs/videos/warp_demo.gif" alt="Warp Demo" style="max-width: 700px; width: 100%; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
+  <p><i>Real-time view transformation between RealSense D415 and Quest3 cameras</i></p>
 </div>
 
-## 📚 Related Resources
+📹 <a href="docs/videos/warp_demo.mp4">Download Full Video (MP4)</a>
 
-- **Reference**：[MIT Vision Book - Imaging Geometry](https://visionbook.mit.edu/imaging_geometry.html)
+---
+
+## ✨ Key Features
+
+- 🎯 **Pixel-Perfect Alignment** - Convert coordinates between cameras with sub-pixel accuracy
+- 🔧 **Complete Calibration Pipeline** - Intrinsics + extrinsics calibration in one tool
+- � **Rich Visualization** - Interactive plots and detailed error analysis
+- 🚀 **Easy to Use** - Simple API and command-line interface
+- 📁 **Sample Data Included** - Ready-to-run examples with 20 image pairs
+- 🎮 **XR-Ready** - Optimized for Quest3 and RealSense D415
+
+---
 
 ## 📑 Table of Contents
 
-- [Final Goal of Calibration](#-final-goal-of-calibration)
-- [What are Intrinsics](#-what-are-intrinsics)
-- [What are Extrinsics](#-what-are-extrinsics)
 - [Quick Start](#-quick-start)
+- [What is Calibration](#-what-is-calibration)
+- [Installation](#-installation)
 - [Sample Data](#-sample-data)
 - [Detailed Documentation](#-detailed-documentation)
-- [Contribution](#-contribution)
+- [Core OpenCV Functions](#-core-opencv-functions)
+- [Contributing](#-contributing)
 - [License](#-license)
 
-## 🎯 Final Goal of Calibration
-
-The core goal of camera calibration is **to enable pixel-to-pixel conversion between two cameras**. Through calibration, we can:
-
-- Convert pixel coordinates from RealSense camera to Quest3 camera
-- Convert pixel coordinates from Quest3 camera to RealSense camera
-- Achieve spatial alignment between the two cameras, allowing them to "see" the same 3D world
-
-## 📷 What are Intrinsics
-
-**Intrinsics** describe the internal optical characteristics of a camera, defining the **mapping relationship between pixels and 3D space**:
-
-- **Focal Length**: Controls the camera's field of view and magnification
-- **Principal Point**: The intersection of the camera's optical axis with the imaging plane
-- **Distortion Coefficients**: Correct lens distortion
-
-The essence of intrinsics calibration is to establish a mapping from pixel coordinates to spatial rays. Each pixel corresponds to a ray in space that starts from the camera's optical center, passes through the pixel, and extends to infinity.
-
-## 🌍 What are Extrinsics
-
-**Extrinsics** describe the **relative position and orientation between two cameras**, assuming they are in different 3D reference frames:
-
-- **Rotation Matrix**: Describes the rotation of one camera relative to another
-- **Translation Vector**: Describes the position offset of one camera relative to another
-
-The essence of extrinsics calibration is to find a rigid body transformation that converts one camera's 3D coordinate system to another camera's 3D coordinate system.
+---
 
 ## 🚀 Quick Start
+
+### Installation
+
+```bash
+# Clone the repository
+git clone https://github.com/yourusername/MetaSenseCalib.git
+cd MetaSenseCalib
+
+# Install dependencies
+pip install -r requirements.txt
+```
+
+### Basic Usage
 
 ```python
 from calibration import Calibrator
@@ -85,18 +89,6 @@ print(f"Euler angles (degrees): X={result.euler_angles[0]:.2f}, Y={result.euler_
 print(f"Mean error: {result.mean_error:.3f} mm")
 ```
 
-##  Sample Data
-
-The project includes sample datasets located in the `data/example/` directory:
-
-```
-data/example/
-├── rs_0000.png ~ rs_0019.png   # RealSense D415 images (20 images)
-├── q3_0000.png ~ q3_0019.png   # Quest3 images (20 images)
-├── rs_intrinsics.json          # RealSense intrinsics
-└── q3_intrinsics.json           # Quest3 intrinsics
-```
-
 ### Run Examples
 
 ```bash
@@ -107,13 +99,52 @@ python examples/intr-visual.py
 python examples/extr-demo.py
 ```
 
-## 📹 Video Demo
+---
 
-The following video demonstrates the pixel conversion effect after camera calibration, showing the view transformation between RealSense and Quest3 cameras:
+## 📖 What is Calibration
 
-![Warp Demo](docs/videos/warp_demo.gif)
+### 🎯 Final Goal
 
-The video file is located at `docs/videos/warp_demo.mp4` in the project.
+The core goal of camera calibration is **to enable pixel-to-pixel conversion between two cameras**. Through calibration, we can:
+
+- Convert pixel coordinates from RealSense camera to Quest3 camera
+- Convert pixel coordinates from Quest3 camera to RealSense camera
+- Achieve spatial alignment between the two cameras, allowing them to "see" the same 3D world
+
+### 📷 Intrinsics
+
+**Intrinsics** describe the internal optical characteristics of a camera, defining the **mapping relationship between pixels and 3D space**:
+
+- **Focal Length**: Controls the camera's field of view and magnification
+- **Principal Point**: The intersection of the camera's optical axis with the imaging plane
+- **Distortion Coefficients**: Correct lens distortion
+
+The essence of intrinsics calibration is to establish a mapping from pixel coordinates to spatial rays. Each pixel corresponds to a ray in space that starts from the camera's optical center, passes through the pixel, and extends to infinity.
+
+### 🌍 Extrinsics
+
+**Extrinsics** describe the **relative position and orientation between two cameras**, assuming they are in different 3D reference frames:
+
+- **Rotation Matrix**: Describes the rotation of one camera relative to another
+- **Translation Vector**: Describes the position offset of one camera relative to another
+
+The essence of extrinsics calibration is to find a rigid body transformation that converts one camera's 3D coordinate system to another camera's 3D coordinate system.
+
+---
+
+## 📦 Sample Data
+
+The project includes sample datasets located in the `data/example/` directory:
+
+```
+data/example/
+├── rs_0000.png ~ rs_0019.png   # RealSense D415 images (20 images)
+├── q3_0000.png ~ q3_0019.png   # Quest3 images (20 images)
+├── rs_intrinsics.json          # RealSense intrinsics
+└── q3_intrinsics.json          # Quest3 intrinsics
+```
+
+---
 
 ## 📚 Detailed Documentation
 
@@ -127,6 +158,12 @@ Detailed documentation includes:
 - Mathematical principles of extrinsic rigid body calibration
 - Detailed analysis of actual calibration results
 - Error evaluation and optimization suggestions
+
+### 📚 Related Resources
+
+- [MIT Vision Book - Imaging Geometry](https://visionbook.mit.edu/imaging_geometry.html)
+
+---
 
 ## 🛠️ Core OpenCV Functions
 
@@ -153,16 +190,23 @@ Key OpenCV functions used in this project:
 - `cv2.TERM_CRITERIA_MAX_ITER` - Termination criteria for corner localization (maximum iterations)
 - `cv2.SOLVEPNP_ITERATIVE` - Iterative method for solvePnP
 
-## 🤝 Contribution
+---
 
-Welcome to submit Pull Requests! We greatly appreciate community contributions, whether it's feature improvements, bug fixes, or documentation enhancements.
+## 🤝 Contributing
+
+We welcome contributions from the community! Here's how you can help:
+
+- 🐛 **Bug Reports** - Found an issue? Please open an issue with details
+- 💡 **Feature Requests** - Have an idea? We'd love to hear it
+- 🔧 **Pull Requests** - Submit PRs for bug fixes or new features
+- 📖 **Documentation** - Help improve our docs and translations
+
+Please read our [Contributing Guide](CONTRIBUTING.md) for details on our code of conduct and development process.
+
+---
 
 ## 📄 License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
 ---
-
-<div align="center">
-  <p>Made with ❤️ for XR Calibration</p>
-</div>
