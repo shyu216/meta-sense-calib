@@ -31,7 +31,7 @@ Watch how MetaSenseCalib enables seamless pixel-to-pixel conversion between Real
 
 - 🎯 **Pixel-Perfect Alignment** - Convert coordinates between cameras with sub-pixel accuracy
 - 🔧 **Complete Calibration Pipeline** - Intrinsics + extrinsics calibration in one tool
-- � **Rich Visualization** - Interactive plots and detailed error analysis
+- 📊 **Rich Visualization** - Interactive plots and detailed error analysis
 - 🚀 **Easy to Use** - Simple API and command-line interface
 - 📁 **Sample Data Included** - Ready-to-run examples with 20 image pairs
 - 🎮 **XR-Ready** - Optimized for Quest3 and RealSense D415
@@ -57,8 +57,8 @@ Watch how MetaSenseCalib enables seamless pixel-to-pixel conversion between Real
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/MetaSenseCalib.git
-cd MetaSenseCalib
+git clone https://github.com/shyu216/meta-sense-calib.git
+cd meta-sense-calib
 
 # Install dependencies
 pip install -r requirements.txt

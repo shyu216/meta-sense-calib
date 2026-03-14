@@ -55,8 +55,8 @@
 
 ```bash
 # 克隆仓库
-git clone https://github.com/yourusername/MetaSenseCalib.git
-cd MetaSenseCalib
+git clone https://github.com/shyu216/meta-sense-calib.git
+cd meta-sense-calib
 
 # 安装依赖
 pip install -r requirements.txt
